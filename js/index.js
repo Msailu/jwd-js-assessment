@@ -18,34 +18,47 @@
 
       5. Add a countdown timer - when the time is up, end the quiz, display the score and highlight the correct answers
 *************************** */
+const submitButton = document.getElementById('btnSubmit');
+const resetButton=document.getElementById('btnReset');
+// quizArray QUESTIONS & ANSWERS
+// q = QUESTION, o = OPTIONS, a = CORRECT ANSWER
+ // Basic ideas from https://code-boxx.com/simple-javascript-quiz/
+const quizArray = [
+  {
+    q: 'Which is the third planet from the sun?',
+    o: ['Saturn', 'Earth', 'Pluto', 'Mars'],
+    a: 1, // array index 1 - so Earth is the correct answer here
+  },
+  {
+    q: 'Which is the largest ocean on Earth?',
+    o: ['Atlantic Ocean', 'Indian Ocean', 'Arctic Ocean', 'Pacific Ocean'],
+    a: 3,
+  },
+  {
+    q: 'What is the capital of Australia',
+    o: ['Sydney', 'Canberra', 'Melbourne', 'Perth'],
+    a: 1,
+  },
+  {
+    q: 'Which animal is known as the desert?',
+    o: ['Tiger', 'Thorny Devil', 'Desert fox', 'Camel'],
+    a: 3,
+  },
+  {
+    q: 'What do you call a type of shape that has five sides?',
+    o: ['Triangle', 'Pentagon', 'Hexagon', 'Polygon'],
+    a: 1,
+  },
+];
+
 
 window.addEventListener('DOMContentLoaded', () => {
   const start = document.querySelector('#start');
   start.addEventListener('click', function (e) {
     document.querySelector('#quizBlock').style.display = 'block';
     start.style.display = 'none';
-  });
-  // quizArray QUESTIONS & ANSWERS
-  // q = QUESTION, o = OPTIONS, a = CORRECT ANSWER
-  // Basic ideas from https://code-boxx.com/simple-javascript-quiz/
-  const quizArray = [
-    {
-      q: 'Which is the third planet from the sun?',
-      o: ['Saturn', 'Earth', 'Pluto', 'Mars'],
-      a: 1, // array index 1 - so Earth is the correct answer here
-    },
-    {
-      q: 'Which is the largest ocean on Earth?',
-      o: ['Atlantic Ocean', 'Indian Ocean', 'Arctic Ocean', 'Pacific Ocean'],
-      a: 3,
-    },
-    {
-      q: 'What is the capital of Australia',
-      o: ['Sydney', 'Canberra', 'Melbourne', 'Perth'],
-      a: 1,
-    },
-  ];
-
+  });// end of click addEventListener
+  
   // function to Display the quiz questions and answers from the object
   const displayQuiz = () => {
     const quizWrap = document.querySelector('#quizWrap');
@@ -57,34 +70,56 @@ window.addEventListener('DOMContentLoaded', () => {
                     <li class="list-group-item" id="li_${index}_1"><input type="radio" name="radio${index}" id="radio_${index}_1"> ${quizItem.o[1]}</li>
                     <li class="list-group-item"  id="li_${index}_2"><input type="radio" name="radio${index}" id="radio_${index}_2"> ${quizItem.o[2]}</li>
                     <li class="list-group-item"  id="li_${index}_3"><input type="radio" name="radio${index}" id="radio_${index}_3"> ${quizItem.o[3]}</li>
+
+                   
                     </ul>
                     <div>&nbsp;</div>`;
       quizWrap.innerHTML = quizDisplay;
+      console.log('in displayQuiz function');
+      console.log(quizDisplay);
     });
   };
 
-  // Calculate the score
+  // call the displayQuiz function
+  displayQuiz();
+
+});//End Of window addEventListener
+
+//Calculate the score
   const calculateScore = () => {
     let score = 0;
     quizArray.map((quizItem, index) => {
+      console.log(quizItem + '..............' +index);
       for (let i = 0; i < 4; i++) {
         //highlight the li if it is the correct answer
         let li = `li_${index}_${i}`;
         let r = `radio_${index}_${i}`;
         liElement = document.querySelector('#' + li);
         radioElement = document.querySelector('#' + r);
+       
 
         if (quizItem.a == i) {
+
           //change background color of li element here
+          
+          liElement.style.background='green';
         }
 
         if (radioElement.checked) {
           // code for task 1 goes here
+          if (quizItem.a == i) {
+            score+=1;
+          }
+            
         }
       }
     });
+    document.querySelector('#score').innerHTML= `Your Score is ${score}`;
   };
-
-  // call the displayQuiz function
-  displayQuiz();
-});
+  submitButton.addEventListener('click',calculateScore);
+  resetButton.addEventListener('click',()=>{
+   
+   location=window.location;
+   location.reload();
+    
+  });
