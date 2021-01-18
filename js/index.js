@@ -57,7 +57,7 @@ window.addEventListener('DOMContentLoaded', () => {
   start.addEventListener('click', function (e) {
     document.querySelector('#quizBlock').style.display = 'block';
     start.style.display = 'none';
-  });// end of click addEventListener
+    });// end of start  addEventListener
   
   // function to Display the quiz questions and answers from the object
   const displayQuiz = () => {
@@ -123,3 +123,9 @@ window.addEventListener('DOMContentLoaded', () => {
    location.reload();
     
   });
+//Timer Function
+  window.onload = function() {
+  
+    setTimeout( calculateScore, 60000);
+    
+    };
